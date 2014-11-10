@@ -1,4 +1,6 @@
 # Ett repo för Projekt 1A i Applied Signal Processing
+**OBS**: Lägg in saker i **README.md** som ni tycker att alla bör följa.
+* * *
 Jag vet inte hur mycket användning vi kommer att ha av det här repot men vi ger det ett försök.
 * * *
 ## Några saker att tänka på:

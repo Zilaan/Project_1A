@@ -12,9 +12,6 @@ H = fft(zeroh);
 conjH = conj(H);
 
 % Estimation of S
-% estS = r .* conjH;
-% r_estS = sign( real(r) .* real(conjH) );
-% i_estS = sign( imag(r) .* imag(conjH) );
 r_estS = sign(real(conjH .* r));
 i_estS = sign(imag(conjH .* r));
 

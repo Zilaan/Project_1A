@@ -11,7 +11,7 @@ N = 128;
 
 bitMessage = 2*round(rand(1,2*N))-1;
 cyclicPref = 10;
-ch = 'h2';
+ch = 'h1';
 for k = 1:iterations
 
 [receivedBits, errs, H_est, H] = testSendRec(s, E, bitMessage, N, cyclicPref, ch);
@@ -34,9 +34,16 @@ hold on
 plot(abs(H));
 plot(abs(H_est), 'ro');
 
-title('Estimation and true value of $h_{x}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+if strcmp(ch, 'h1')
+    title('Estimation and true value of $h_{1}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|h_{1}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+else
+    title('Estimation and true value of $h_{2}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|h_{2}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+end
+
 xlabel('Samples [n]', 'Interpreter', 'latex', 'FontSize', 16);
-ylabel('$|h_{x}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+
 legend('Actual', 'Estimation');
 
 H_diff = abs(H)-abs(H_est);

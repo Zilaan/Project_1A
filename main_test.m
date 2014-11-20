@@ -25,10 +25,19 @@ avNumOfErrors = acErr/iterations
 figure(1)
 stem(bitMessage-receivedBits);
 
+title('Difference between decoded and actual', 'Interpreter', 'latex', 'FontSize', 20);
+xlabel('bit [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Defference', 'Interpreter', 'latex', 'FontSize', 16);
+
 figure(2)
 hold on
 plot(abs(H));
 plot(abs(H_est), 'ro');
+
+title('Estimation and true value of $h_{x}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+xlabel('Samples [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('$|h_{x}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+legend('Actual', 'Estimation');
 
 H_diff = abs(H)-abs(H_est);
 H_err = rms(H_diff)

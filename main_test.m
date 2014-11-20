@@ -26,7 +26,7 @@ ch = 'h2';
 known_channel = 1;
 
 for k = 1:iterations
-    [receivedBits, errs, H_est, trueH] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel);
+    [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel);
     acErr = acErr + errs;
 end
 
@@ -84,4 +84,52 @@ xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
 ylabel('Angle [rad]', 'Interpreter', 'latex', 'FontSize', 16);
 
 legend('Actual', 'Estimation');
+hold off
+
+% Plot of s(k), r(k) and estS(k)
+figure(4)
+
+subplot(211)
+hold on
+title('$|s(k)|$ and $|r(k)|$', 'Interpreter', 'latex', 'FontSize', 20);
+stem(abs(S), 'Marker','.','LineWidth',1,'Color',[1 0 0])   % |s(k)|
+stem(abs(r))        % |r(k)|
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Absolute value', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'r(k)')
+hold off
+
+subplot(212)
+hold on
+title('Phase of $s(k)$ and $r(k)$', 'Interpreter', 'latex', 'FontSize', 20);
+stem(angle(S), 'Marker','.','LineWidth',1,'Color',[1 0 0]) % <s(k)
+stem(angle(r))      % <r(k)
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Phase', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'r(k)')
+hold off
+
+figure(5)
+subplot(211)
+hold on
+title('$|s(k)|$ and $|\hat{s}(k)|$', 'Interpreter', 'latex', 'FontSize', 20);
+stem(abs(S), 'Marker','.','LineWidth',1,'Color',[1 0 0])   % |s(k)|
+stem(abs(estS))        % |estS(k)|
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Absolute value', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'est. of s(k)')
+hold off
+
+subplot(212)
+hold on
+title('Phase of $s(k)$ and $\hat{s}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
+stem(angle(S), 'Marker','.','LineWidth',1,'Color',[1 0 0]) % <s(k)
+stem(angle(estS))      % <estS(k)
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Phase', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'est. of s(k)')
 hold off

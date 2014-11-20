@@ -1,4 +1,4 @@
-function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBits, knownBits, n, cycP, channel, known_channel)
+function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(sigmaIn, amp, sentBits, knownBits, n, cycP, channel, known_channel)
 
     bitSeq = sentBits;
 
@@ -87,8 +87,9 @@ function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBi
     end
 
     % Estimation of S for known and unknown signal
-    r_estS = sign(real(conjH .* r));
-    i_estS = sign(imag(conjH .* r));
+    estS = conjH .* r;
+    r_estS = sign(real(estS));
+    i_estS = sign(imag(estS));
 
     % Decode QPSK to bits
     b = [];

@@ -1,0 +1,99 @@
+s(k) & r(k)
+	Figure 1:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : 0
+		Channel      : Known
+		Gain         : 2
+		Error        : 0
+
+	Figure 2:
+		Filter       : h1
+		Noise        : 0.1
+		Synch. Error : 0
+		Channel      : Known
+		Gain         : 2
+		Error        : 44
+
+	Figure 3:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : -3
+		Channel      : Known
+		Gain         : 2
+		Error        : 127
+
+s(k) & est. s(k)
+	Figure 4:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : 0
+		Channel      : Known
+		Gain         : 2
+		Error        : 0
+
+	Figure 5:
+		Filter       : h1
+		Noise        : 0.1
+		Synch. Error : 0
+		Channel      : Known
+		Gain         : 2
+		Error        : 36
+
+	Figure 6:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : -3
+		Channel      : Known
+		Gain         : 2
+		Error        : 127
+============================
+s(k) & r(k)
+	Figure 1:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : 0
+		Channel      : unknown
+		Gain         : 2
+		Error        : 0
+
+	Figure 2:
+		Filter       : h1
+		Noise        : 0.1
+		Synch. Error : 0
+		Channel      : unknown
+		Gain         : 2
+		Error        : 58
+
+	Figure 3:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : -3
+		Channel      : unknown
+		Gain         : 2
+		Error        : 128
+
+s(k) & est. s(k)
+	Figure 4:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : 0
+		Channel      : unknown
+		Gain         : 2
+		Error        : 0
+
+	Figure 5:
+		Filter       : h1
+		Noise        : 0.1
+		Synch. Error : 0
+		Channel      : unknown
+		Gain         : 2
+		Error        : 49
+
+	Figure 6:
+		Filter       : h1
+		Noise        : 0
+		Synch. Error : -3
+		Channel      : unknown
+		Gain         : 2
+		Error        : 128

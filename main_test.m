@@ -1,12 +1,12 @@
 %% Run
-clc, clear variables, clf
+clc, clear variables, close all
 
 iterations = 1;
 
 acErr = 0; %Acumulated error
 
 s = 0; %Std dev for 
-E = 10;  %Signal amplitude
+E = 2;  %Signal amplitude
 
 N = 128;
 
@@ -20,13 +20,13 @@ knownBits = 2*round(rand(1,2*N))-1;
 cyclicPref = 60;
 
 % Filter for channel
-ch = 'h2';
+ch = 'h1';
 
 % Is the channel known to the reciever?
 known_channel = 1;
 
 % Synchronization error?
-synchError = 0;
+synchError = -1;
 
 for k = 1:iterations
     [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel, synchError);
@@ -46,10 +46,11 @@ end
 figure(1)
 stem(bitMessage - receivedBits);
 
-title('Difference between $r(k)$ and $s(k)$', 'Interpreter', 'latex', 'FontSize', 20);
+title('Difference between $\hat{s}(k)$ and $s(k)$', 'Interpreter', 'latex', 'FontSize', 20);
 xlabel('bit [n]', 'Interpreter', 'latex', 'FontSize', 16);
 ylabel('Defference', 'Interpreter', 'latex', 'FontSize', 16);
 
+%%
 % Plot h(n) and est of h(n)
 figure(2)
 hold on
@@ -115,6 +116,7 @@ ylabel('Phase', 'Interpreter', 'latex', 'FontSize', 16);
 legend('s(k)', 'r(k)')
 hold off
 
+%%
 figure(5)
 subplot(211)
 hold on
@@ -127,6 +129,7 @@ ylabel('Absolute value', 'Interpreter', 'latex', 'FontSize', 16);
 legend('s(k)', 'est. of s(k)')
 hold off
 
+%%
 subplot(212)
 hold on
 title('Phase of $s(k)$ and $\hat{s}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
@@ -136,4 +139,42 @@ stem(angle(estS))      % <estS(k)
 xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
 ylabel('Phase', 'Interpreter', 'latex', 'FontSize', 16);
 legend('s(k)', 'est. of s(k)')
+hold off
+
+%% Phase bar
+hold on
+title('Noise free \& synch error', 'Interpreter', 'latex', 'FontSize', 20);
+stem(angle(S), 'MarkerSize',15,'MarkerFaceColor',[1 0 0],...
+    'MarkerEdgeColor',[1 0 0],...
+    'Marker','.',...
+    'LineWidth',1,...
+    'Color',[1 0 0])          % <s(k)
+stem(angle(estS))                                                % <estS(k)
+plot([0 128], [pi/2 pi/2], '-.k')
+plot([0 128], [-pi/2 -pi/2], '-.k')
+
+axis([0 128 -4 4])
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Phase [rad]', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'est. of s(k)')
+hold off
+
+%%
+hold on
+title('Noise free \& synch error', 'Interpreter', 'latex', 'FontSize', 20);
+stem(angle(S), 'MarkerSize',15,'MarkerFaceColor',[1 0 0],...
+    'MarkerEdgeColor',[1 0 0],...
+    'Marker','.',...
+    'LineWidth',1,...
+    'Color',[1 0 0])          % <s(k)
+stem(angle(r))                                                      % <r(k)
+plot([0 128], [pi/2 pi/2], '-.k')
+plot([0 128], [-pi/2 -pi/2], '-.k')
+
+axis([0 128 -4 4])
+
+xlabel('Symbol [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Phase [rad]', 'Interpreter', 'latex', 'FontSize', 16);
+legend('s(k)', 'r(k)')
 hold off

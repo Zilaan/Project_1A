@@ -40,11 +40,11 @@ plot(abs(H), 'LineWidth', 1);
 plot(abs(H_est), 'ro');
 
 if strcmp(ch, 'h1')
-    title('Impulse response of $h_{1}(n)$ and $\hat{h}_{1}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('$|h_{1}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+    title('Impulse response of $h_{1}(w)$ and $\hat{h}_{1}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|h_{1}(w)|$', 'Interpreter', 'latex', 'FontSize', 16);
 else
-    title('Impulse response of $h_{2}(n)$ and $\hat{h}_{2}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('$|h_{2}(n)|$', 'Interpreter', 'latex', 'FontSize', 16);
+    title('Impulse response of $h_{2}(w)$ and $\hat{h}_{2}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|h_{2}(w)|$', 'Interpreter', 'latex', 'FontSize', 16);
 end
 
 xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
@@ -62,9 +62,9 @@ plot(angle(H), 'LineWidth', 1)
 plot(angle(H_est), 'r')
 
 if strcmp(ch, 'h1')
-    title('Phase of $h_{1}(n)$ and $\hat{h}_{1}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+    title('Phase of $h_{1}(w)$ and $\hat{h}_{1}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
 else
-    title('Phase of $h_{2}(n)$ and $\hat{h}_{2}(n)$', 'Interpreter', 'latex', 'FontSize', 20);
+    title('Phase of $h_{2}(w)$ and $\hat{h}_{2}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
 end
 xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
 ylabel('Angle [rad]', 'Interpreter', 'latex', 'FontSize', 16);

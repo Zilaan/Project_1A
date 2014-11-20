@@ -1,20 +1,21 @@
 clc, clear variables, clf
 
-iterations = 100;
+iterations = 1;
 
 acErr = 0; %Acumulated error
 
-s = 0.1; %Std dev for 
+s = 0; %Std dev for 
 E = 1;  %Signal amplitude
 
 N = 128;
 
 bitMessage = 2*round(rand(1,2*N))-1;
-
-
+cyclicPref = 10;
+ch = 'h2';
 for k = 1:iterations
 
-[receivedBits, errs, H_est, H] = testSendRec(s, E, bitMessage, N);
+[receivedBits, errs, H_est, H] = testSendRec(s, E, bitMessage, N, cyclicPref, ch);
+
 acErr = acErr + errs;
 
 end

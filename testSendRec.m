@@ -1,4 +1,4 @@
-function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBits, n)
+function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBits, n, cycP, channel)
 
 bitSeq = sentBits;
 % Encode bitSeq into QPSK
@@ -19,17 +19,27 @@ for n = 0:N-1
 end
 Fs = ifft(Svector);
 % cyclic_prefix 60
-% cyclic_prefix = z(end-40+1:end);
-cyclic_prefix = z(end-60+1:end);
+
+cyclic_prefix = z(end-cycP+1:end);
 zz = [cyclic_prefix z].';
+
 % Discrete Time impulse response of H1
 
 h1 = zeros(1,60);
 for n = 0:59
     h1(n+1) = 0.8^(n);
 end
-h = h1';
-   
+
+h2 = zeros(1,9);
+h2(1) = 0.5;
+h2(9) = 0.5;
+
+if strcmp(channel, 'h1')
+   h = h1';
+elseif strcmp(channel, 'h2')
+   h = h2';
+end
+    
 
 % Generate noise
 % Length of conv signal
@@ -43,7 +53,7 @@ y = conv(h, zz) + w;
 % OFDM
 % FFT the last 128 of the signal
 
-r = fft(y(61:128+60));
+r = fft(y((cycP+1):128+cycP));
 
 % Equalizer
 % Zero padding

@@ -1,17 +1,20 @@
 function [] = chlength()
-%% This is a test function
+% This is a test function which tests the real function, chlengthREAL.
+% A channel is generated as well as noise, which are then sent to the
+% function together with the amplitude of the impulse, as well as the
+% percentage threshold for channel length. 
 
 % True Channel 
 h = zeros(1,128);
 h(1) = 0.5;
 h(9) = 0.5;
-channel = h;
 
 % Noise with mean 0 & std.dev gt
 gt = 0.05;
 rn = gt.*randn(1,128);
-noise = rn;
 
+channel = h;
+noise = rn;
 amplitude = 10;
 alpha = 0.15;
 

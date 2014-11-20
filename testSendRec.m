@@ -1,4 +1,4 @@
-function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBits, n, cycP, channel)
+function [b, numOfErrors, H_est, trueChannel] = testSendRec(sigmaIn, amp, sentBits, n, cycP, channel, shift)
 
 bitSeq = sentBits;
 % Encode bitSeq into QPSK
@@ -46,7 +46,7 @@ y = conv(h, zz) + w;
 % OFDM^1
 % FFT the last 128 of the signal
 
-r = fft(y((cycP+1):128+cycP));
+r = fft(y((cycP+1+shift):128+cycP+shift));
 
 % Equalizer
 % Zero padding

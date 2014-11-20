@@ -1,27 +1,32 @@
 %% Run
-clc, clear variables, clf
+clc, clear variables, clf, close all
 
-iterations = 1;
+iterations = 100;
 
 acErr = 0; %Acumulated error
 
-s = 0; %Std dev for 
-E = 1;  %Signal amplitude
+s = 0; %Std dev for noise. Our 4 values: [0,0.01,0.05 0.1] 
+E = 1;  %Signal amplitude. Always 1!
+
+M = 0; % Shift,  (to make a synchronization error)
+%negative integer to get from the prefix.
+%poistive integer to get samples from the next OFDMsegment
 
 N = 128;
 
 bitMessage = 2*round(rand(1,2*N))-1;
-cyclicPref = 10;
-ch = 'h2';
+cyclicPref = 60;
+ch = 'h1';
 for k = 1:iterations
 
-[receivedBits, errs, H_est, H] = testSendRec(s, E, bitMessage, N, cyclicPref, ch);
+[receivedBits, errs, H_est, H] = testSendRec(s, E, bitMessage, N, cyclicPref, ch, M);
 
 acErr = acErr + errs;
 
 end
 
 avNumOfErrors = acErr/iterations
+avErrorRate = avNumOfErrors/(N*2)
 
 %% Plots
 

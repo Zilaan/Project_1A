@@ -6,7 +6,7 @@ iterations = 1;
 acErr = 0; %Acumulated error
 
 s = 0; %Std dev for 
-E = 1;  %Signal amplitude
+E = 10;  %Signal amplitude
 
 N = 128;
 
@@ -17,7 +17,7 @@ bitMessage = 2*round(rand(1,2*N))-1;
 knownBits = 2*round(rand(1,2*N))-1;
 
 % Length of cyclic prefix
-cyclicPref = 10;
+cyclicPref = 60;
 
 % Filter for channel
 ch = 'h2';
@@ -25,8 +25,11 @@ ch = 'h2';
 % Is the channel known to the reciever?
 known_channel = 1;
 
+% Synchronization error?
+synchError = 0;
+
 for k = 1:iterations
-    [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel);
+    [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel, synchError);
     acErr = acErr + errs;
 end
 
@@ -86,6 +89,7 @@ ylabel('Angle [rad]', 'Interpreter', 'latex', 'FontSize', 16);
 legend('Actual', 'Estimation');
 hold off
 
+%%
 % Plot of s(k), r(k) and estS(k)
 figure(4)
 

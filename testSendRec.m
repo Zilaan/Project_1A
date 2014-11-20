@@ -1,4 +1,4 @@
-function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(sigmaIn, amp, sentBits, knownBits, n, cycP, channel, known_channel)
+function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(sigmaIn, amp, sentBits, knownBits, n, cycP, channel, known_channel, synchError)
 
     bitSeq = sentBits;
 
@@ -65,8 +65,17 @@ function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(si
 
     % OFDM^1
     % FFT the last 128 of the signal
-    r = fft( y((cycP + 1):128 + cycP) );
-    known_r = fft( known_y((cycP + 1):128 + cycP) );
+    
+    if synchError == -1                                  % Get CP
+        r = fft( y((cycP + 1 - 3):128 + cycP - 3) );
+        known_r = fft( known_y((cycP + 1):128 + cycP) );
+    elseif synchError == 1                              % Get CP of next signal
+        r = fft( y((cycP + 1):128 + cycP) );
+        known_r = fft( [known_y((cycP + 1 + 3):128 + cycP);[1+1i;1-1i;-1-1i]]);
+    else
+        r = fft( y((cycP + 1):128 + cycP) ); % No error
+        known_r = fft( known_y((cycP + 1):128 + cycP) );
+    end
 
     % Estimate filter
     s = knownVector.';

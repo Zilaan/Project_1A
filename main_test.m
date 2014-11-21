@@ -5,8 +5,7 @@ iterations = 100;
 
 acErr = 0; %Acumulated error
 
-s = 0; %Std dev for 
-E = 1;  %Signal amplitude
+E = 1;  %Signal amplitude (Do not change)
 
 N = 128;
 
@@ -17,17 +16,28 @@ bitMessage2 = 2*round(rand(1,2*N))-1;
 % Generate random bit for the 'known' messege
 knownBits = 2*round(rand(1,2*N))-1;
 
-% Length of cyclic prefix
-cyclicPref = 60;
-
-% Filter for channel
+% Filter for channel and length of cyclic prefix
+%----Filter h1
 ch = 'h1';
+cyclicPref = 60;
+%----Filter h2
+% ch = 'h2';
+% cyclicPref = 9;
 
 % Is the channel known to the reciever?
 known_channel = 0;
 
+%Std dev for noise
+s = 0; 
+% s = 0.01;
+% s = 0.05;
+% s = 0.1;
+
 % Synchronization error?
 synchError = 0;
+% synchError = -8;
+% synchError = 8;
+
 
 for k = 1:iterations
     [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage1, bitMessage2, knownBits, N, cyclicPref, ch, known_channel, synchError);

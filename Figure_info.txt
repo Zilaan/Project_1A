@@ -4,7 +4,7 @@ s(k) & r(k)
 		Noise        : 0
 		Synch. Error : 0
 		Channel      : Known
-		Gain         : 2
+		Gain         : 1
 		Error        : 0
 
 	Figure 2:
@@ -12,16 +12,16 @@ s(k) & r(k)
 		Noise        : 0.1
 		Synch. Error : 0
 		Channel      : Known
-		Gain         : 2
-		Error        : 44
+		Gain         : 1
+		Error        : 55
 
 	Figure 3:
 		Filter       : h1
 		Noise        : 0
-		Synch. Error : -3
+		Synch. Error : -8
 		Channel      : Known
-		Gain         : 2
-		Error        : 127
+		Gain         : 1
+		Error        : 131
 
 s(k) & est. s(k)
 	Figure 4:
@@ -29,7 +29,7 @@ s(k) & est. s(k)
 		Noise        : 0
 		Synch. Error : 0
 		Channel      : Known
-		Gain         : 2
+		Gain         : 1
 		Error        : 0
 
 	Figure 5:
@@ -37,16 +37,16 @@ s(k) & est. s(k)
 		Noise        : 0.1
 		Synch. Error : 0
 		Channel      : Known
-		Gain         : 2
-		Error        : 36
+		Gain         : 1
+		Error        : 60
 
 	Figure 6:
 		Filter       : h1
 		Noise        : 0
-		Synch. Error : -3
+		Synch. Error : -8
 		Channel      : Known
-		Gain         : 2
-		Error        : 127
+		Gain         : 1
+		Error        : 126
 ============================
 s(k) & r(k)
 	Figure 1:
@@ -54,7 +54,7 @@ s(k) & r(k)
 		Noise        : 0
 		Synch. Error : 0
 		Channel      : unknown
-		Gain         : 2
+		Gain         : 1
 		Error        : 0
 
 	Figure 2:
@@ -62,16 +62,16 @@ s(k) & r(k)
 		Noise        : 0.1
 		Synch. Error : 0
 		Channel      : unknown
-		Gain         : 2
-		Error        : 58
+		Gain         : 1
+		Error        : 65
 
 	Figure 3:
 		Filter       : h1
 		Noise        : 0
-		Synch. Error : -3
+		Synch. Error : -8
 		Channel      : unknown
-		Gain         : 2
-		Error        : 128
+		Gain         : 1
+		Error        : 0
 
 s(k) & est. s(k)
 	Figure 4:
@@ -79,7 +79,7 @@ s(k) & est. s(k)
 		Noise        : 0
 		Synch. Error : 0
 		Channel      : unknown
-		Gain         : 2
+		Gain         : 1
 		Error        : 0
 
 	Figure 5:
@@ -87,13 +87,13 @@ s(k) & est. s(k)
 		Noise        : 0.1
 		Synch. Error : 0
 		Channel      : unknown
-		Gain         : 2
+		Gain         : 1
 		Error        : 49
 
 	Figure 6:
 		Filter       : h1
 		Noise        : 0
-		Synch. Error : -3
+		Synch. Error : -8
 		Channel      : unknown
-		Gain         : 2
+		Gain         : 1
 		Error        : 128

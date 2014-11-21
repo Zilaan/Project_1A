@@ -1,3 +1,6 @@
+h(k) & est. h(k)
+
+
 s(k) & r(k)
 	Figure 1:
 		Filter       : h1

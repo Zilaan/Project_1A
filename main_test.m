@@ -1,7 +1,7 @@
 %% Run
 clc, clear variables, close all
 
-iterations = 100;
+iterations = 1;
 
 acErr = 0; %Acumulated error
 
@@ -11,8 +11,10 @@ N = 128;
 
 % Generate random bit sequence
 bitMessage1 = 2*round(rand(1,2*N))-1;
+
 % Generate random bit sequence
 bitMessage2 = 2*round(rand(1,2*N))-1;
+
 % Generate random bit for the 'known' messege
 knownBits = 2*round(rand(1,2*N))-1;
 
@@ -25,16 +27,16 @@ cyclicPref = 60;
 % cyclicPref = 9;
 
 % Is the channel known to the reciever?
-known_channel = 0;
+known_channel = 1;
 
 %Std dev for noise
-s = 0; 
+% s = 0;
 % s = 0.01;
-% s = 0.05;
+ s = 0.05;
 % s = 0.1;
 
 % Synchronization error?
-synchError = 0;
+ synchError = 0;
 % synchError = -8;
 % synchError = 8;
 
@@ -62,44 +64,47 @@ title('Difference between $\hat{s}(k)$ and $s(k)$', 'Interpreter', 'latex', 'Fon
 xlabel('bit [n]', 'Interpreter', 'latex', 'FontSize', 16);
 ylabel('Defference', 'Interpreter', 'latex', 'FontSize', 16);
 
-%%
-% Plot h(n) and est of h(n)
+%% Plot h(n) and est of h(n)
 figure(2)
 hold on
-plot(abs(trueH), 'LineWidth', 1);
-plot(abs(H_est), 'ro');
+plot(abs(trueH), 'LineWidth', 1.5);
+plot(abs(H_est0), 'or');
+plot(abs(H_est5), 'k');
 
 if strcmp(ch, 'h1')
-    title('Impulse response of $h_{1}(w)$ and $\hat{h}_{1}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('$|h_{1}(w)|$', 'Interpreter', 'latex', 'FontSize', 16);
+    title('$H_{1}(k)$ compared to $\hat{H}_{1}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|H_{1}(k)|$', 'Interpreter', 'latex', 'FontSize', 16);
 else
-    title('Impulse response of $h_{2}(w)$ and $\hat{h}_{2}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
-    ylabel('$|h_{2}(w)|$', 'Interpreter', 'latex', 'FontSize', 16);
+    title('$H_{2}(k)$ compared to $\hat{H}_{2}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
+    ylabel('$|H_{2}(k)|$', 'Interpreter', 'latex', 'FontSize', 16);
 end
 
-xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
+%xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
 
-legend('Actual', 'Estimation');
+legend('Actual', 'Est. s=0', 'Est. s=0.05');
 
-H_diff = abs(trueH) - abs(H_est);
-H_err = rms(H_diff)
+
+%H_diff = abs(trueH) - abs(H_est);
+%H_err = rms(H_diff)
 hold off
 
 % Plot of phase for h(n) and est of h(n)
 figure(3)
 hold on
-plot(angle(trueH), 'LineWidth', 1)
-plot(angle(H_est), 'r')
+plot(angle(trueH), 'LineWidth', 1.5)
+plot(angle(H_est0), 'or')
+plot(angle(H_est5), 'k')
 
 if strcmp(ch, 'h1')
-    title('Phase of $h_{1}(w)$ and $\hat{h}_{1}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
+    title('$H_{1}(k)$ compared to $\hat{H}_{1}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
 else
-    title('Phase of $h_{2}(w)$ and $\hat{h}_{2}(w)$', 'Interpreter', 'latex', 'FontSize', 20);
+    title('$H_{2}(k)$ compared to $\hat{H}_{2}(k)$', 'Interpreter', 'latex', 'FontSize', 20);
 end
-xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
-ylabel('Angle [rad]', 'Interpreter', 'latex', 'FontSize', 16);
+%xlabel('Sample [n]', 'Interpreter', 'latex', 'FontSize', 16);
+ylabel('Phase [rad]', 'Interpreter', 'latex', 'FontSize', 16);
 
-legend('Actual', 'Estimation');
+legend('Actual', 'Est. s=0', 'Est. s=0.05');
+
 hold off
 
 %%
@@ -153,8 +158,10 @@ ylabel('Phase', 'Interpreter', 'latex', 'FontSize', 16);
 legend('s(k)', 'est. of s(k)')
 hold off
 
-%% Phase bar
+%% Phase s(k) & estS(k)
 hold on
+%title('Noise free \& perfect synch', 'Interpreter', 'latex', 'FontSize', 20);
+%title('Noisy ($\sigma$ = 0.1) \& perfect synch', 'Interpreter', 'latex', 'FontSize', 20);
 title('Noise free \& synch error', 'Interpreter', 'latex', 'FontSize', 20);
 stem(angle(S), 'MarkerSize',15,'MarkerFaceColor',[1 0 0],...
     'MarkerEdgeColor',[1 0 0],...
@@ -172,8 +179,10 @@ ylabel('Phase [rad]', 'Interpreter', 'latex', 'FontSize', 16);
 legend('s(k)', 'est. of s(k)')
 hold off
 
-%%
+%% Phase s(k) & r(k)
 hold on
+%title('Noise free \& perfect synch', 'Interpreter', 'latex', 'FontSize', 20);
+%title('Noisy ($\sigma$ = 0.1) \& perfect synch', 'Interpreter', 'latex', 'FontSize', 20);
 title('Noise free \& synch error', 'Interpreter', 'latex', 'FontSize', 20);
 stem(angle(S), 'MarkerSize',15,'MarkerFaceColor',[1 0 0],...
     'MarkerEdgeColor',[1 0 0],...

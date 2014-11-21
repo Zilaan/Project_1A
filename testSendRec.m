@@ -1,33 +1,33 @@
-function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(sigmaIn, amp, sentBits, knownBits, n, cycP, channel, known_channel, synchError)
-
-    bitSeq = sentBits;
+function [b, numOfErrors, H_est, trueChannel, r, estS, Svector1] = testSendRec(sigma, amp, sentBits1, sentBits2, knownBits, n, cycP, channel, known_channel, synchError)
 
     N = n;
     E = amp;
 
     % Allocate memory
-    Svector = zeros(1, N);
-    knownVector = zeros(1, N);
+    Svector1 = zeros(1, N);
+    Svector2 = zeros(1, N);
+    SknownVector = zeros(1, N);
 
     % Handel to generate QPSK
     b = @(re,im) sqrt(E/2)*(re + 1i*im);
 
     % Encode Seq into QPSK
     for h = 1:N
-        Svector(h) = b(bitSeq(2*h - 1), bitSeq(2*h));
-        knownVector(h) = b(knownBits(2*h - 1), knownBits(2*h));
+        Svector1(h) = b(sentBits1(2*h - 1), sentBits1(2*h));
+        Svector2(h) = b(sentBits2(2*h - 1), sentBits2(2*h));
+        SknownVector(h) = b(knownBits(2*h - 1), knownBits(2*h));
     end
 
     % OFDM - Generate z(n) and known
-    z = ifft(Svector);
-    knownZ = ifft(knownVector);
+    z1 = ifft(Svector1);
+    z2 = ifft(Svector1);
+    knownZ = ifft(SknownVector);
 
     % Add cyclic_prefix to signal and known signal
-    cyclic_prefix = z(end - cycP + 1:end);
-    zz = [cyclic_prefix z].';
-
-    cyclic_prefix = knownZ(end - cycP + 1:end);
-    knownZZ = [cyclic_prefix knownZ].';
+    cyclic_prefix1 = z1(end - cycP + 1:end);
+    cyclic_prefix2 = z2(end - cycP + 1:end);
+    cyclic_prefixk = knownZ(end - cycP + 1:end);
+    zz = [cyclic_prefixk knownZ cyclic_prefix1 z1 cyclic_prefix2 z2].';
 
     % Channel select
     h1 = zeros(1,60);
@@ -50,35 +50,23 @@ function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(si
 
     % Length of conv signal
     y_len = length(zz) + length(h) - 1;
-    known_y_len = length(knownZZ) + length(h) - 1;
-
-    % Weigth of noise
-    sigma = sigmaIn;
 
     % Noise for known and unknown signal
-    known_w = 1/sqrt(2)*sigma*(randn(known_y_len, 1) + 1i*randn(known_y_len, 1));
     w = 1/sqrt(2)*sigma*(randn(y_len, 1) + 1i*randn(y_len, 1));
 
     % Filter through channel when sending
     y = conv(h, zz) + w;
-    known_y = conv(h, knownZZ) + known_w;
 
     % OFDM^1
     % FFT the last 128 of the signal
     
-    if synchError == -1                                  % Get CP
-        r = fft( y((cycP + 1 - 3):128 + cycP - 3) );
-        known_r = fft( known_y((cycP + 1):128 + cycP) );
-    elseif synchError == 1                              % Get CP of next signal
-        r = fft( y((cycP + 1):128 + cycP) );
-        known_r = fft( [known_y((cycP + 1 + 3):128 + cycP);[1+1i;1-1i;-1-1i]]);
-    else
-        r = fft( y((cycP + 1):128 + cycP) ); % No error
-        known_r = fft( known_y((cycP + 1):128 + cycP) );
-    end
+
+        known_r = fft( y((cycP + 1 + synchError):128 + cycP + synchError) );
+        r = fft( y((2*cycP + 128 + 1 + synchError):cycP + 128 + 128 + cycP + synchError) );
+
 
     % Estimate filter
-    s = knownVector.';
+    s = SknownVector.';
     H_est = known_r./s;
 
     % FFT filter and inverse
@@ -89,7 +77,7 @@ function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(si
     %   If not: use estimation of channel for decoding
     if known_channel == 1
         % Real channel
-        conjH = conj(H);
+        conjH = conj(trueChannel);
     else
         % Estimation of channel
         conjH = conj(H_est);
@@ -107,7 +95,7 @@ function [b, numOfErrors, H_est, trueChannel, r, estS, Svector] = testSendRec(si
     end
 
     % Diff between true and recieved bits
-    bb = b - bitSeq;
+    bb = b - sentBits1;
 
     % Number of errors after decoding
     numOfErrors = sum(bb(:) ~= 0);

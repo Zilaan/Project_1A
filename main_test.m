@@ -1,18 +1,19 @@
 %% Run
 clc, clear variables, close all
 
-iterations = 1;
+iterations = 100;
 
 acErr = 0; %Acumulated error
 
 s = 0; %Std dev for 
-E = 2;  %Signal amplitude
+E = 1;  %Signal amplitude
 
 N = 128;
 
 % Generate random bit sequence
-bitMessage = 2*round(rand(1,2*N))-1;
-
+bitMessage1 = 2*round(rand(1,2*N))-1;
+% Generate random bit sequence
+bitMessage2 = 2*round(rand(1,2*N))-1;
 % Generate random bit for the 'known' messege
 knownBits = 2*round(rand(1,2*N))-1;
 
@@ -23,17 +24,18 @@ cyclicPref = 60;
 ch = 'h1';
 
 % Is the channel known to the reciever?
-known_channel = 1;
+known_channel = 0;
 
 % Synchronization error?
-synchError = -1;
+synchError = 0;
 
 for k = 1:iterations
-    [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage, knownBits, N, cyclicPref, ch, known_channel, synchError);
+    [receivedBits, errs, H_est, trueH, r, estS, S] = testSendRec(s, E, bitMessage1, bitMessage2, knownBits, N, cyclicPref, ch, known_channel, synchError);
     acErr = acErr + errs;
 end
 
 avNumOfErrors = acErr/iterations
+avErrorRate = avNumOfErrors/(2*N)
 
 if known_channel == 1
     H = trueH;
